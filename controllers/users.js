@@ -1,4 +1,3 @@
-const { request, response } = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
@@ -16,7 +15,7 @@ const usersGet = async (req, res) => {
   });
 };
 
-const usersPost = async (req = request, res = response) => {
+const usersPost = async (req, res) => {
   const { name, email, password, role } = req.body;
   const user = new User({ name, email, password, role });
 
@@ -42,19 +41,17 @@ const usersPut = async (req, res) => {
   res.json(user);
 };
 
-const usersPatch = (req, res) => {
-  res.json({
-    msg: "patch API",
-  });
-};
-
 const usersDelete = async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findByIdAndUpdate(id, { status: false });
 
+  res.json({user});
+};
+
+const usersPatch = (req, res) => {
   res.json({
-    user
+    msg: "patch API",
   });
 };
 
