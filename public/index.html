@@ -35,7 +35,7 @@
 
           const body = { id_token: response.credential };
 
-          fetch('http://localhost:3000/api/auth/google' || 'https://restserver-node-skydoes.herokuapp.com', {
+          fetch('http://localhost:3000/api/auth/google' || 'https://restserver-node-skydoes.herokuapp.com/api/auth/google', {
             method : 'POST',
             headers: {
               'Content-Type': 'application/json'
