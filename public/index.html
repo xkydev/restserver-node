@@ -32,9 +32,6 @@
 
       <script>
         function handleCredentialResponse(response) {
-           
-            //Google Token : ID_TOKEN
-          //  console.log("id_token", response.credential);
 
           const body = { id_token: response.credential };
 
@@ -54,7 +51,7 @@
         }
 
         const button = document.getElementById('google_signout');
-        button.onclick = () => {
+        button.onclick = async () => {
 
           google.accounts.id.disableAutoSelect();
           
