@@ -15,16 +15,15 @@ const {
 } = require("../helpers/db-validators");
 
 const {
-  usersGet,
-  usersPost,
-  usersPut,
-  usersPatch,
-  usersDelete,
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
 } = require("../controllers/users");
 
 const router = Router();
 
-router.get("/", usersGet);
+router.get("/", getUsers);
 
 router.post(
   "/",
@@ -39,7 +38,7 @@ router.post(
     check("role").custom(isValidRole),
     validateFields,
   ],
-  usersPost
+  createUser
 );
 
 router.put(
@@ -50,7 +49,7 @@ router.put(
     check("role").custom(isValidRole),
     validateFields,
   ],
-  usersPut
+  updateUser
 );
 
 router.delete(
@@ -63,9 +62,7 @@ router.delete(
     check("id").custom(userExistsById),
     validateFields,
   ],
-  usersDelete
+  deleteUser
 );
-
-router.patch("/", usersPatch);
 
 module.exports = router;

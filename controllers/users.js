@@ -1,7 +1,7 @@
-const User = require("../models/user");
+const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 
-const usersGet = async (req, res) => {
+const getUsers = async (req, res) => {
   const { limit = 5, skip = 0 } = req.query;
 
   const [total, users] = await Promise.all([
@@ -15,7 +15,7 @@ const usersGet = async (req, res) => {
   });
 };
 
-const usersPost = async (req, res) => {
+const createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
   const user = new User({ name, email, password, role });
 
@@ -27,7 +27,7 @@ const usersPost = async (req, res) => {
   res.json(user);
 };
 
-const usersPut = async (req, res) => {
+const updateUser = async (req, res) => {
   const { id } = req.params;
   const { _id, password, google, email, ...body } = req.body;
 
@@ -36,29 +36,22 @@ const usersPut = async (req, res) => {
     body.password = bcrypt.hashSync(password, salt);
   }
 
-  const user = await User.findByIdAndUpdate(id, body);
+  const user = await User.findByIdAndUpdate(id, body, { new: true });
 
   res.json(user);
 };
 
-const usersDelete = async (req, res) => {
+const deleteUser = async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findByIdAndUpdate(id, { status: false });
+  const user = await User.findByIdAndUpdate(id, { status: false }, { new: true });
 
-  res.json({user});
-};
-
-const usersPatch = (req, res) => {
-  res.json({
-    msg: "patch API",
-  });
+  res.json(user);
 };
 
 module.exports = {
-  usersGet,
-  usersPost,
-  usersPut,
-  usersPatch,
-  usersDelete,
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
 };
